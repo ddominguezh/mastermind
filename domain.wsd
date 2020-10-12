@@ -1,0 +1,77 @@
+@startuml
+
+class MasterMind {}
+
+class Player {}
+
+class Encoder {}
+
+class Decoder {}
+
+class Turn {}
+
+class Board {}
+
+class Goal {}
+
+class HideTheCode {}
+
+class FindOutTheCode {}
+
+class Spike {}
+
+class Ball {}
+
+enum Color {
+  WHITE
+  BLACK
+  RED
+  BLUE
+  YELLOW
+  GREEN
+  ORANGE
+  PINK
+}
+
+class Action {}
+class CreateCodeAction {}
+class PutLineBallAction {}
+class PutStrikeAction {}
+
+class HideLine {}
+class Line {}
+class Hollow {}
+
+MasterMind *-- "2" Player
+MasterMind *-- Turn
+Turn *-- "2" Player
+MasterMind *-- Board
+Player *-- Board
+Player *-- Encoder
+Player *-- Decoder
+Goal <|-- HideTheCode
+Goal <|-- FindOutTheCode
+Encoder ..> HideTheCode
+Decoder ..> FindOutTheCode
+
+
+Player *-- "2" Spike
+Player *-- "8" Ball
+Ball *-- Color
+Spike *-- Color
+
+Action <|-- CreateCodeAction
+Action <|-- PutStrikeAction
+Action <|-- PutLineBallAction
+
+Encoder ..> "1" CreateCodeAction
+Encoder ..> "1, 10" PutStrikeAction
+Decoder ..> "1, 10" PutLineBallAction
+
+CreateCodeAction ..> HideLine
+PutLineBallAction ..> Line
+PutStrikeAction ..> "0, 4" Hollow
+
+MasterMind .. "Before started play" CreateCodeAction
+
+@enduml
